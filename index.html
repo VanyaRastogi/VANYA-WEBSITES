@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For My Love ❤️</title>
+
+<style>
+    body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(135deg, #ff9acb, #ff6fa4);
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    /* FLOATING HEART BACKGROUND */
+    .floating-heart {
+        position: fixed;
+        color: rgba(255,255,255,0.7);
+        animation: float 6s linear infinite;
+        font-size: 25px;
+        z-index: 0;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+        50% { opacity: 1; }
+        100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* MAIN CENTER BOX WITH GLOW */
+    #container {
+        width: 70%;
+        margin: 40px auto;
+        background: #fff;
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 0 25px rgba(255,0,80,0.4);
+        border: 5px solid transparent;
+        animation: borderGlow 3s infinite ease-in-out;
+        position: relative;
+        z-index: 10;
+        text-align: center;
+    }
+
+    @keyframes borderGlow {
+        0% { border-color: #ff3e73; }
+        50% { border-color: #ff9acb; }
+        100% { border-color: #ff3e73; }
+    }
+
+    h1 {
+        font-size: 45px;
+        color: #ff005d;
+        animation: fadeIn 1.5s ease;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        font-size: 32px;
+        animation: fadeIn 0.7s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    button {
+        padding: 15px 35px;
+        font-size: 22px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        margin: 20px;
+    }
+
+    #yesBtn { 
+        background: #ff4b70; 
+        color: white; 
+        box-shadow: 0 0 10px #ff4b70;
+    }
+
+    #noBtn { 
+        background: #4b8bff; 
+        color: white; 
+        position: relative; 
+    }
+
+    #correctMsg {
+        font-size: 24px; 
+        color: #ff005d; 
+        display: none;
+        animation: fadeIn 0.6s ease;
+    }
+
+    /* FINAL IMAGE HEART FRAME + GLOW */
+    #finalImage {
+        width: 70%;
+        border-radius: 30px;
+        margin-top: 20px;
+        box-shadow: 0 0 20px rgba(255,0,80,0.6);
+        animation: glowPic 2s infinite alternate;
+    }
+
+    @keyframes glowPic {
+        from { box-shadow: 0 0 20px rgba(255,0,80,0.5); }
+        to { box-shadow: 0 0 40px rgba(255,0,80,0.9); }
+    }
+
+    /* HEART RAIN */
+    .heartRain {
+        position: fixed;
+        top: -10px;
+        font-size: 28px;
+        animation: fall 2.5s linear forwards;
+    }
+    @keyframes fall {
+        to { transform: translateY(100vh); opacity: 0; }
+    }
+
+</style>
+</head>
+
+<body>
+
+<!-- FLOATING HEART BACKGROUND GENERATOR -->
+<script>
+for(let i=0;i<20;i++){
+    let heart = document.createElement("div");
+    heart.classList.add("floating-heart");
+    heart.innerHTML = "💗";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDelay = Math.random() * 5 + "s";
+    heart.style.fontSize = (20 + Math.random()*25) + "px";
+    document.body.appendChild(heart);
+}
+</script>
+
+<!-- MAIN BOX -->
+<div id="container">
+
+<h1>Vanya ❤️ Sarthak</h1>
+
+<div id="startScreen">
+    <button onclick="startQuiz()">Start</button>
+</div>
+
+<div id="questionScreen" style="display:none;">
+    <h2 id="questionText"></h2>
+
+    <div style="display:flex; justify-content:center;">
+        <button id="yesBtn" onclick="yesClicked()">Yes</button>
+        <button id="noBtn" onclick="noMove()">No</button>
+    </div>
+
+    <p id="correctMsg">Correct Answer ❤️ I love you baby!</p>
+</div>
+
+<div id="finalMessage" style="display:none;">
+    <p style="font-size:25px; font-weight:bold;">
+        I love you my baby 💋<br><br>
+        You're sweet, strong, smart and sexy.<br>
+        I'm so glad you're mine! Every time I'm with you, the room gets hotter. <br>
+        You are my lover, my partner, my best friend and my Valentine ♥️😘
+    </p>
+
+    <!-- COUPLE PHOTO HERE -->
+    <img src="couple.jpeg" id="finalImage" alt="Our Photo">
+</div>
+
+</div>
+
+<script>
+let index = 0;
+
+const questions = [
+    "Do you think I'm beautiful?",
+    "Do you love me?",
+    "Do you want to spent your life with me?",
+    "Will you be my Valentine?"
+];
+
+function startQuiz() {
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("questionScreen").style.display = "block";
+    loadQuestion();
+}
+
+function loadQuestion() {
+    document.getElementById("questionText").innerText = questions[index];
+}
+
+function yesClicked() {
+    document.getElementById("correctMsg").style.display = "block";
+    heartRain();
+
+    setTimeout(() => {
+        document.getElementById("correctMsg").style.display = "none";
+
+        if (index < questions.length - 1) {
+            index++;
+            loadQuestion();
+        } else {
+            document.getElementById("questionScreen").style.display = "none";
+            document.getElementById("finalMessage").style.display = "block";
+        }
+    }, 1500);
+}
+
+function noMove() {
+    let btn = document.getElementById("noBtn");
+
+    let x = Math.random() * (window.innerWidth - 200);
+    let y = Math.random() * (window.innerHeight - 200);
+
+    btn.style.position = "absolute";
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+}
+
+function heartRain() {
+    for (let i = 0; i < 20; i++) {
+        let h = document.createElement("div");
+        h.classList.add("heartRain");
+        h.innerHTML = "💖";
+        h.style.left = Math.random() * 100 + "vw";
+        h.style.animationDuration = 1.5 + Math.random() + "s";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 2500);
+    }
+}
+</script>
+
+</body>
+</html>
